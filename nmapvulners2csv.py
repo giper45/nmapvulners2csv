@@ -1,4 +1,5 @@
 from xml.etree import ElementTree
+import traceback
 import csv
 import fire
 import requests
@@ -23,6 +24,7 @@ def info(msg):
     print("[+] {}".format(msg))
 
 def err(msg):
+    traceback.print_exc() 
     print("[-] ERR:{}".format(msg))
 
 def download_descr(type, id):
@@ -45,7 +47,7 @@ def is_open(p):
     return state.attrib['state'] == "open"
 
 def get_cpe(p):
-    return p.find("service").find("cpe").text if p.find("service").find("cpe") is not None else ""
+    return p.find("service").find("cpe").text if p.find("service") is not None and p.find("service").find("cpe") is not None else ""
 
 def get_vulns(p):
     script = p.find("script[@id='vulners']")
